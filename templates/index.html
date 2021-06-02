@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+<h1>Crop Production Prediction</h1>
+
+ <form action="{{url_for('predict')}}"method="post">
+     <!--div class="wrapper"-->
+	 <select id="parent_select" name="State_Name"><option>Select_State</option></select>
+	 <select id="child_select" name="District_Name"><option>Select_District</option></select>
+     <!--/div-->
+
+    <!--select id="Crop_Year" name="Crop_Year">
+	<option>Crop_Year</option>
+	<option>1997</option>
+	<option>1998</option>
+	<option>1999</option>
+	<option>2000</option>
+	<option>2001</option>
+	<option>2002</option>
+	<option>2003</option>
+	<option>2004</option>
+	<option>2005</option>
+	<option>2006</option>
+	<option>2007</option>
+	<option>2008</option>
+	<option>2009</option>
+	<option>2010</option>
+	<option>2011</option>
+	<option>2012</option>
+	<option>2013</option>
+	<option>2014</option>
+	<option>2015</option>
+	
+	
+	</select-->
+		<!--select id="Season" name="Season">
+		<option>Select_Season</option>
+		<option>Kharif</option>
+		<option>Rabi</option>
+		<option>Summer</option>
+		<option>Winter</option>
+		<option>Wholeyear</option>
+		<option>Autumn</option>
+
+		</select-->
+		<input type="number" name="Crop_Year" placeholder="Crop_Year" required="required" />
+		<select id="parent_select1" name="Season"><option>Select_Season</option></select>
+		<select id="child_select1" name="Crop"><option>Select_Crop</option></select>
+		
+		<!--input type="text" name="Season" placeholder="Season" required="required" />
+		<input type="text" name="Crop" placeholder="Crop" required="required" /-->
+		<input type="number" name="Area" placeholder="Area in ha" required="required" />
+
+
+		
+		<button type="submit" class="btn btn-primary btn-block btn-large">predict</button>
+		
+	</form>
+	<br>
+	<br>
+	{{prediction_text}}
+	<br>
+	{{state}}
+	<br>
+	{{district}}
+	<br>
+	{{year}}
+	<br>
+	{{season}}
+	<br>
+	{{crop}}
+	<br>
+	{{Area}}
+	<br>
+	<!--{{prediction_text1}}
+	<br>
+	<br>
+	{{prediction_text2}}
+	<br>
+	<br>
+	{{prediction_text3}}
+	<br>
+	<br>
+	{{prediction_text4}}
+	<br>
+	{{prediction_text5}}
+	<br>
+	{{crop1}}
+	<br>
+	<br>
+	{{crop2}}
+	<br>
+	<br>
+	{{crop3}}
+	<br>
+	<br>
+	{{crop4}}
+	<br>
+	{{crop5}}-->
+	 <div id="container" style="width: 100%; height: 100%"></div>
+	 <div id="container1" style="width: 100%; height: 100%"></div>
+	 <div id="container2" style="width: 100%; height: 100%"></div>
+	</div>
+	
+	</body>
+	</html>
+	
+	
+	<script language="javascript" type="text/javascript">  
+var mList = {
+	AndamanandNicobarIslands: ['Nicobars', 'North and Middle Andaman', 'South Andamans'],
+	AndhraPradesh :  ['ANANTAPUR','CHITTOOR','EAST GODAVARI','GUNTUR','KADAPA','KRISHNA','KURNOOL','PRAKASAM','SPSR NELLORE','SRIKAKULAM','VISAKHAPATANAM','VIZIANAGARAM','WEST GODAVARI'],
+	ArunachalPradesh :  ['ANJAW','CHANGLANG','DIBANG VALLEY','EAST KAMENG','EAST SIANG','KURUNG KUMEY','LOHIT','LONGDING','LOWER DIBANG VALLEY','LOWER SUBANSIRI','NAMSAI','PAPUM PARE','TAWANG',
+	                     'TIRAP','UPPER SIANG','UPPER SUBANSIRI','WEST KAMENG','WEST SIANG'],
+	Assam : ['BAKSA','BARPETA','BONGAIGAON','CACHAR','CHIRANG','DARRANG','DHEMAJI','DHUBRI','DIBRUGARH','DIMA HASAO','GOALPARA','GOLAGHAT','HAILAKANDI','JORHAT','KAMRUP','KAMRUP METRO',
+	         'KARBI ANGLONG','KARIMGANJ','KOKRAJHAR','LAKHIMPUR','MARIGAON','NAGAON','NALBARI','SIVASAGAR','SONITPUR','TINSUKIA','UDALGURI'],
+	Bihar : ['ARARIA','ARWAL','AURANGABAD','BANKA','BEGUSARAI','BHAGALPUR','BHOJPUR','BUXAR','DARBHANGA','GAYA','GOPALGANJ','JAMUI','JEHANABAD','KAIMUR','BHABUA','KATIHAR','KHAGARIA',
+	         'KISHANGANJ','LAKHISARAI','MADHEPURA','MADHUBANI','MUNGER','MUZAFFARPUR','NALANDA','NAWADA','PASHCHIM CHAMPARAN','PATNA','PURBI CHAMPARAN','PURNIA','ROHTAS','SAHARSA','SAMASTIPUR',
+			 'SARAN','SHEIKHPURA','SHEOHAR','SITAMARHI','SIWAN','SUPAUL','VAISHALI'],
+    Chandigarh : ['CHANDIGARH'],
+    Chhattishgarh : ['BALOD','BALODA BAZAR','BALRAMPUR','BASTAR','BEMETARA','BIJAPUR','BILASPUR','DANTEWADA','DHAMTARI','DURG','GARIYABAND','JANJGIR-CHAMPA','JASHPUR','KABIRDHAM','KANKER',
+	                 'KONDAGAON','KORBA','KOREA','MAHASAMUND','MUNGELI','NARAYANPUR','RAIGARH','RAIPUR','RAJNANDGAON','SUKMA','SURAJPUR','SURGUJA'],
+    Dadraandnagarhavelli : ['DADRA AND NAGARHAVELI'],
+    Goa : ['NORTH GOA','SOUTH GOA'],
+    Gujarat : ['AHMADABAD','AMRELI','ANAND','BANAS KANTHA','BHARUCH','BHAVNAGAR','DANG','DOHAD','GANDHINAGAR','JAMNAGAR','JUNAGADH','KACHCHH','KHEDA','MAHESANA','NARMADA','NAVSARI',
+	          'PANCH MAHALS','PATAN','PORBANDAR','RAJKOT','SABAR KANTHA','SURAT','SURENDRANAGAR','TAPI','VADODARA','VALSAD'],
+    Haryana : ['AMBALA','BHIWANI','FARIDABAD','FATEHABAD','GURGAON','HISAR','JHAJJAR','JIND','KAITHAL','KARNAL','KURUKSHETRA','MAHENDRAGARH','MEWAT','PALWAL','PANCHKULA','PANIPAT',
+	           'REWARI','ROHTAK','SIRSA','SONIPAT','YAMUNANAGAR'],
+HimachalPradesh : ['BILASPUR','CHAMBA','HAMIRPUR','KANGRA','KINNAUR','KULLU','LAHUL AND SPITI','MANDI','SHIMLA','SIRMAUR','SOLAN','UNA'],
+JammuAndKashmir : ['ANANTNAG','BADGAM','BANDIPORA','BARAMULLA','DODA','GANDERBAL','JAMMU','KARGIL','KATHUA','KISHTWAR','KULGAM','KUPWARA','LEH LADAKH','POONCH','PULWAMA','RAJAURI',
+                   'RAMBAN','REASI','SAMBA','SHOPIAN','SRINAGAR','UDHAMPUR'],
+Jharkhand : ['BOKARO','CHATRA','DEOGHAR','DHANBAD','DUMKA','EAST SINGHBUM','GARHWA','GIRIDIH','GODDA','GUMLA','HAZARIBAGH','JAMTARA','KHUNTI','KODERMA','LATEHAR','LOHARDAGA','PAKUR',
+             'PALAMU','RAMGARH','RANCHI','SAHEBGANJ','SARAIKELA KHARSAWAN','SIMDEGA','WEST SINGHBHUM'],
+Karnataka : ['BAGALKOT','BANGALORE RURAL','BELGAUM','BELLARY','BENGALURU URBAN','BIDAR','BIJAPUR','CHAMARAJANAGAR','CHIKBALLAPUR','CHIKMAGALUR','CHITRADURGA','DAKSHIN KANNAD',
+             'DAVANGERE','DHARWAD','GADAG','GULBARGA','HASSAN','HAVERI','KODAGU','KOLAR','KOPPAL','MANDYA','MYSORE','RAICHUR','RAMANAGARA','SHIMOGA','TUMKUR','UDUPI','UTTAR KANNAD',
+			 'YADGIR'],
+Kerala : ['ALAPPUZHA','ERNAKULAM','IDUKKI','KANNUR','KASARAGOD','KOLLAM','KOTTAYAM','KOZHIKODE','MALAPPURAM','PALAKKAD','PATHANAMTHITTA','THIRUVANANTHAPURAM','THRISSUR','WAYANAD'],
+
+MadhyaPradesh : ['AGAR MALWA','ALIRAJPUR','ANUPPUR','ASHOKNAGAR','BALAGHAT','BARWANI','BETUL','BHIND','BHOPAL','BURHANPUR','CHHATARPUR','CHHINDWARA','DAMOH','DATIA','DEWAS','DHAR','DINDORI','GUNA',
+                 'GWALIOR','HARDA','HOSHANGABAD','INDORE','JABALPUR','JHABUA','KATNI','KHANDWA','KHARGONE','MANDLA','MANDSAUR','MORENA','NARSINGHPUR','NEEMUCH','PANNA','RAISEN','RAJGARH','RATLAM',
+				 'REWA','SAGAR','SATNA','SEHORE','SEONI','SHAHDOL','SHAJAPUR','SHEOPUR','SHIVPURI','SIDHI','SINGRAULI','TIKAMGARH','UJJAIN','UMARIA','VIDISHA'],
+				 
+Maharashtra : ['AHMEDNAGAR','AKOLA','AMRAVATI','AURANGABAD','BEED','BHANDARA','BULDHANA','CHANDRAPUR','DHULE','GADCHIROLI','GONDIA','HINGOLI','JALGAON','JALNA','KOLHAPUR','LATUR','MUMBAI','NAGPUR',
+               'NANDED','NANDURBAR','NASHIK','OSMANABAD','PALGHAR','PARBHANI','PUNE','RAIGAD','RATNAGIRI','SANGLI','SATARA','SINDHUDURG','SOLAPUR','THANE','WARDHA','WASHIM','YAVATMAL'],
+Manipur : ['BISHNUPUR','CHANDEL','CHURACHANDPUR','IMPHAL EAST','IMPHAL WEST','SENAPATI','TAMENGLONG','THOUBAL','UKHRUL'],
+Meghalaya : ['EAST GARO HILLS','EAST JAINTIA HILLS','EAST KHASI HILLS','NORTH GARO HILLS','RI BHOI','SOUTH GARO HILLS','SOUTH WEST GARO HILLS','SOUTH WEST KHASI HILLS','WEST GARO HILLS','WEST JAINTIA HILLS',
+             'WEST KHASI HILLS'],
+Mizoram : ['AIZAWL','CHAMPHAI','KOLASIB','LAWNGTLAI','LUNGLEI','MAMIT','SAIHA','SERCHHIP'],
+Nagaland : ['MON','DIMAPUR','KIPHIRE','KOHIMA','LONGLENG','MOKOKCHUNG','PEREN','PHEK','TUENSANG','WOKHA','ZUNHEBOTO'],
+Odisha : ['ANUGUL','BALANGIR','BALESHWAR','BARGARH','BHADRAK','BOUDH','CUTTACK','DEOGARH','DHENKANAL','GAJAPATI','GANJAM','JAGATSINGHAPUR','JAJAPUR','JHARSUGUDA','KALAHANDI','KANDHAMAL','KENDRAPARA','KENDUJHAR',
+          'KHORDHA','KORAPUT','MALKANGIRI','MAYURBHANJ','NABARANGPUR','NAYAGARH','NUAPADA','PURI','RAYAGADA','SAMBALPUR','SONEPUR','SUNDARGARH'],
+Puducherry : ['KARAIKAL','MAHE','PONDICHERRY','YANAM'],
+Punjab : ['AMRITSAR','BARNALA','BATHINDA','FARIDKOT','FATEHGARH SAHIB','FAZILKA','FIROZEPUR','GURDASPUR','HOSHIARPUR','JALANDHAR','KAPURTHALA','LUDHIANA','MANSA','MOGA','MUKTSAR','NAWANSHAHR','PATHANKOT','PATIALA',
+          'RUPNAGAR','S.A.S NAGAR','SANGRUR','TARN TARAN'],
+Rajasthan : ['AJMER','ALWAR','BANSWARA','BARAN','BARMER','BHARATPUR','BHILWARA','BIKANER','BUNDI','CHITTORGARH','CHURU','DAUSA','DHOLPUR','DUNGARPUR','GANGANAGAR','HANUMANGARH','JAIPUR','JAISALMER','JALORE',
+             'JHALAWAR','JHUNJHUNU','JODHPUR','KARAULI','KOTA','NAGAUR','PALI','PRATAPGARH','RAJSAMAND','SAWAI MADHOPUR','SIKAR','SIROHI','TONK','UDAIPUR'],
+Sikkim : ['EAST DISTRICT','NORTH DISTRICT','SOUTH DISTRICT','WEST DISTRICT'],
+TamilNadu : ['ARIYALUR','COIMBATORE','CUDDALORE','DHARMAPURI','DINDIGUL','ERODE','KANCHIPURAM','KANNIYAKUMARI','KARUR','KRISHNAGIRI',
+             'MADURAI','NAGAPATTINAM','NAMAKKAL','PERAMBALUR','PUDUKKOTTAI','RAMANATHAPURAM','SALEM','SIVAGANGA','THANJAVUR','THE NILGIRIS',
+			 'THENI','THIRUVALLUR','THIRUVARUR','TIRUCHIRAPPALLI','TIRUNELVELI','TIRUPPUR','TIRUVANNAMALAI','TUTICORIN','VELLORE','VILLUPURAM','VIRUDHUNAGAR'],
+Telangana : ['ADILABAD','HYDERABAD','KARIMNAGAR','KHAMMAM','MAHBUBNAGAR','MEDAK','NALGONDA','NIZAMABAD','RANGAREDDI','WARANGAL'],
+Tripura : ['DHALAI','GOMATI','KHOWAI','NORTH TRIPURA','SEPAHIJALA','SOUTH TRIPURA','UNAKOTI','WEST TRIPURA'],
+UttarPradesh : ['AGRA','ALIGARH','ALLAHABAD','AMBEDKAR NAGAR','AMETHI','AMROHA','AURAIYA','AZAMGARH','BAGHPAT','BAHRAICH','BALLIA','BALRAMPUR','BANDA','BARABANKI','BAREILLY','BASTI','BIJNOR','BUDAUN','BULANDSHAHR',
+                'CHANDAULI','CHITRAKOOT','DEORIA','ETAH','ETAWAH','FAIZABAD','FARRUKHABAD','FATEHPUR','FIROZABAD','GAUTAM BUDDHA NAGAR','GHAZIABAD','GHAZIPUR','GONDA','GORAKHPUR','HAMIRPUR','HAPUR','HARDOI','HATHRAS',
+				'JALAUN','JAUNPUR','JHANSI','KANNAUJ','KANPUR DEHAT','KANPUR NAGAR','KASGANJ','KAUSHAMBI','KHERI','KUSHI NAGAR','LALITPUR','LUCKNOW','MAHARAJGANJ','MAHOBA','MAINPURI','MATHURA','MAU','MEERUT','MIRZAPUR',
+				'MORADABAD','MUZAFFARNAGAR','PILIBHIT','PRATAPGARH','RAE BARELI','RAMPUR','SAHARANPUR','SAMBHAL','SANT KABEER NAGAR','SANT RAVIDAS NAGAR','SHAHJAHANPUR','SHAMLI','SHRAVASTI','SIDDHARTH NAGAR','SITAPUR',
+				'SONBHADRA','SULTANPUR','UNNAO','VARANASI'],
+Uttarakhand : ['ALMORA','BAGESHWAR','CHAMOLI','CHAMPAWAT','DEHRADUN','HARIDWAR','NAINITAL','PAURI GARHWAL','PITHORAGARH','RUDRA PRAYAG','TEHRI GARHWAL','UDAM SINGH NAGAR','UTTAR KASHI'],
+WestBengal : ['24 PARAGANAS NORTH','24 PARAGANAS SOUTH','BANKURA','BARDHAMAN','BIRBHUM','COOCHBEHAR','DARJEELING','DINAJPUR DAKSHIN','DINAJPUR UTTAR','HOOGHLY','HOWRAH','JALPAIGURI','MALDAH',
+              'MEDINIPUR EAST','MEDINIPUR WEST','MURSHIDABAD','NADIA','PURULIA'],			  
+    			 
+};
+
+el_parent = document.getElementById("parent_select");
+el_child = document.getElementById("child_select");
+
+    for (key in mList) {
+	el_parent.innerHTML = el_parent.innerHTML + '<option>'+ key +'</option>';
+       }
+
+el_parent.addEventListener('change', function populate_child(e){
+	el_child.innerHTML = '';
+	itm = e.target.value;
+	if(itm in mList){
+			for (i = 0; i < mList[itm].length; i++) {
+				el_child.innerHTML = el_child.innerHTML + '<option>'+ mList[itm][i] +'</option>';
+			}
+	}
+});
+</script>
+<script language="javascript" type="text/javascript">
+
+var mList1 = {
+	Kharif : ['Arhar/Tur','Bajra','Banana','Barley','Blackgram','Bean','Cabbage','Cashewnut','Castor seed',
+				'Coconut','Colocosia','Cond-spcs other','Cotton(lint)','Ginger',
+				'Gram', 'Groundnut','Guar seed', 'Jobster', 'Jowar','Jute', 'Kapas', 'Khesari', 'Korra',
+				'Mango','Mesta', 'Moong(Green Gram)', 'Onion', 'Other Cereals & Millets',
+				'Other Kharif pulses', 'Paddy','Peas & beans (Pulses)', 'Perilla', 'Potato',
+				'Rajmash Kholar','Rapeseed &Mustard', 'Rice', 'Ricebean (nagadal)' ,'Samai',
+				'Soyabean', 'Sugarcane', 'Sunflower','Sweet potato','Tea', 'Tobacco', 'Total foodgrain',
+				'Urad','Varagu', 'Wheat'],
+				
+	Rabi : ['Arhar/Tur','Bajra','Banana','Barley','Blackgram','Cabbage','Cashewnut','Castor seed','Cond-spcs other','Cotton(lint)',
+			'Ginger','Gram','Groundnut', 'Jowar','Jute','Khesari', 'Korra',
+			'Lentil','Mesta','Maize', 'Moong(Green Gram)','Onion','Other Cereals & Millets','Other  Rabi pulses',
+			'Other Kharif pulses','Paddy','Peas & beans (Pulses)','Pineapple','Potato',
+				 'Rajmash Kholar','Rapeseed &Mustard', 'Rice' ,'Samai',
+				'Soyabean', 'Sugarcane', 'Sunflower','Sweet potato', 'Tobacco','Total foodgrain',
+				'Urad','Varagu', 'Wheat'],
+				
+	Summer : ['Arhar/Tur','Bajra','Banana','Cotton(lint)','Groundnut', 'Jowar','Jute',
+				'Maize', 'Moong(Green Gram)','Other  Rabi pulses','Onion','Paddy','Peas & beans (Pulses)','Potato','Rice',
+				'Small millets','Sugarcane', 'Sunflower','Tobacco', 'Total foodgrain','Urad', 'Wheat'],
+				
+	Winter : ['Arhar/Tur','Banana','Cotton(lint)','Gram','Groundnut','Maize', 'Moong(Green Gram)',
+				'Onion','Paddy','Peas & beans (Pulses)','Potato','Rice','Rapeseed &Mustard',
+				'Soyabean', 'Sugarcane', 'Sunflower','Sweet potato','Urad', 'Wheat'],
+				
+	Wholeyear : [ 'Arhar/Tur','Ash Gourd','Atcanut (Raw)','Bajra','Banana','Barley','Blackgram','Beans & Mutter(Vegetable)',
+					'Beet Root','Ber','Cabbage','Cashewnut','Castor seed',
+				'Coconut','Cotton(lint)','Cashewnut Processed','Cashewnut Raw','Cauliflower','Citrus Fruit','Coffee','Cucumber','Carrot',
+				'Ginger','Gram','Groundnut','Guar seed', 'Jowar', 'Kapas', 'Khesari','Lab-Lab','Litchi',
+				'Mango','Mesta', 'Moong(Green Gram)','Maize',
+				'Onion','Other Citrus Fruit','Other Dry Fruit','other fibres','Other Fresh Fruits',
+				'Peas & beans (Pulses)', 'Perilla', 'Potato','Pump kin',
+				'Rice','Rapeseed &Mustard','Ribed Guard',
+				'Snak Guard', 'Sugarcane', 'Sunflower','Sweet potato',
+				'Tobacco', 'Total foodgrain','Tea','Turnip',
+				'Urad','Water melon','Wheat','Yam'],
+	
+	Autumn : ['Arhar/Tur','Banana','Cotton(lint)','Groundnut','Jowar','Jute','Maize',
+				'Moong(Green Gram)','Onion','Paddy','Peas & beans (Pulses)','Potato','Rice',
+				'Sugarcane', 'Soyabean','Sweet potato',
+				'Urad']
+				
+
+
+};
+
+el_parent1 = document.getElementById("parent_select1");
+el_child1 = document.getElementById("child_select1");
+
+    for (key in mList1) {
+	console.log(key);
+	el_parent1.innerHTML = el_parent1.innerHTML + '<option>'+ key +'</option>';
+       }
+
+el_parent1.addEventListener('change', function populate_child1(e){
+	el_child1.innerHTML = '';
+	itm1 = e.target.value;
+	if(itm1 in mList1){
+			for (i = 0; i < mList1[itm1].length; i++) {
+				el_child1.innerHTML = el_child1.innerHTML + '<option>'+ mList1[itm1][i] +'</option>';
+			}
+	}
+});
+
+</script>
+
+<script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.0.0/themes/dark_earth.min.js" type="text/javascript"></script>
+
+<script>
+      anychart.onDocumentReady(function() {
+ 
+        // set the data
+        var data = {
+            header: ["Crop_Year", "Production"],
+            rows: [
+              [{{crop1}}, {{prediction_text1}}],
+              [{{crop2}}, {{prediction_text2}}],
+              [{{crop3}}, {{prediction_text3}}],
+              [{{crop4}}, {{prediction_text4}}],
+              [{{crop5}}, {{prediction_text5}}],
+            
+        ]};
+		console.log(data);
+        // create the chart
+		anychart.theme(anychart.themes.darkEarth)
+        var chart = anychart.line();
+		var chart1 = anychart.column();
+		var chart2 = anychart.bar();
+        // add the data
+        chart.data(data);
+		chart1.data(data);
+		chart2.data(data);
+        // set the chart title
+        chart.title("Crop production prediction");
+		chart1.title("Crop production prediction");
+		chart2.title("Crop production prediction");
+        // draw
+        chart.container("container");
+        chart.draw();
+		chart1.container("container1");
+		chart1.draw();
+		chart2.container("container2");
+		chart2.draw();
+      });
+    </script>
